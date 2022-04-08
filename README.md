@@ -14,24 +14,36 @@ from telethonpatch import apply
 apply()
 ```
 
-### Features
+## Features
 #### Use any Function without Import
 ```python
 await client.SendReactionRequest("chat", msg.id, reaction="👍")
-
-# or (With 'Request' prefix)
-
+# or (Without 'Request' prefix)
 await client.SendReaction(chat, msg.id, reaction="👍")
 ```
 
 ### Send Button linked to User's profile
 ```python
-from telethon.tl import Button
+from telethon.tl.types import Button
 
 user = await client.get_input_entity("me")
 button = Button.mention("Open Profile", user)
 
 await client.send_message("username", "Hey!, Message with mention Button", buttons=button)
+```
+
+### Chat Join Requests
+```python
+from telethon import events
+
+@client.on(events.JoinRequest())
+async def example(event):
+    ## Approve - User
+    await event.approve()
+    ## Disapprove user
+    await event.reject()
+    # or print Info of the user.
+    print(await event.get_user())
 ```
 
 ### Message Extensions

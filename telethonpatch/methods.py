@@ -23,7 +23,9 @@ def _getattr(self, item):
         return function
     raise AttributeError(f"{self.__class__.__name__} has no attribute '{item}'")
 
+
 TelegramClient.__getattr__ = _getattr
+
 
 async def start_group_call(
     self: "TelegramClient",

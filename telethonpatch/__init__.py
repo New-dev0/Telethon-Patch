@@ -3,8 +3,7 @@ __version__ = "0.1"
 
 
 def apply():
-    from . import methods
-    from . import custom
+    from . import methods, custom, events
     from telethon import TelegramClient as client
 
     # Rename long name methods..
