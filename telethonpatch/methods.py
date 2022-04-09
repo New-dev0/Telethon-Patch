@@ -41,6 +41,7 @@ async def start_group_call(
     Args:
        peer: ChatId/Username of chat.
        title: Title to keep for voice chat.
+       rtmp_stream: whether to start rtmp stream.
        schedule (optional): 'datetime' object to schedule call.
     """
     return await self(

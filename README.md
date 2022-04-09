@@ -46,6 +46,17 @@ async def example(event):
     print(await event.get_user())
 ```
 
+### Group Call Event (Detailed)
+```python
+@client.on(event.GroupCall())
+async def groupcall(group_call):
+    if group_call.started:
+        print("Group Call Started!")
+        return
+    if group_call.ended:
+        print("Group Call Ended!")
+```
+
 ### Message Extensions
 - `message.message_link` - `Message link of message.`
 - `message.comment()` - Bound method to comment on channel or thread message.
@@ -57,3 +68,25 @@ async def example(event):
 
  > client.read (instead of send_read_acknowledge)
 
+
+# Events
+
+## `events.GroupCall`
+- Occurs when certain action related to group call happens.
+-  `started` - Group call started.
+-  `ended` - Group call ended.
+-  `scheduled` - Whether a Group call has been scheduled.
+
+### Methods
+- `.start(title, rtmp_stream, schedule)` - Start a group call
+- `.discard()` - End group call.
+
+## `events.JoinRequest`
+- Occurs when new chat join request is sent.
+- `.invite` - ExportedChatInvite related to join request
+- `.about` - User's about.
+
+### Methods
+- `.approve()` - Approve chat join request of user.
+- `.reject()` - Reject chat join request.
+- `.get_user()` - Get user sending request.
