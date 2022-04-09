@@ -1,3 +1,7 @@
+# GNU V3
+# https://github.com/New-dev0/Telethon-Patch
+# Copyright  New-dev0
+
 from telethon.tl import functions
 from telethon.tl.custom import Button, Message
 from telethon.tl.types import KeyboardButtonUserProfile

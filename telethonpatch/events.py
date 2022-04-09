@@ -1,7 +1,12 @@
+# GNU V3
+# https://github.com/New-dev0/Telethon-Patch
+# Copyright  New-dev0
+
 from telethon import events
 from telethon.tl import types
 from telethon.tl.types import UpdateBotChatInviteRequester
 from telethon.tl.functions.messages import HideChatJoinRequestRequest
+from telethon.tl.functions.phone import ToggleGroupCallRecordRequest
 from telethon.events.common import EventCommon, name_inner_event, EventBuilder
 
 
@@ -117,6 +122,20 @@ class GroupCall(EventBuilder):
         async def discard(self):
             """End Group call."""
             return await self.client.DiscardGroupCall(self.input_call)
+
+        async def toggle_record(
+            self, start=None, video=None, video_portrait=None, title=None
+        ):
+            """Toggle group call record."""
+            return await self.client(
+                ToggleGroupCallRecordRequest(
+                    self.input_call,
+                    start=start,
+                    video=video,
+                    video_portrait=video_portrait,
+                    title=title,
+                )
+            )
 
 
 setattr(events, "GroupCall", GroupCall)

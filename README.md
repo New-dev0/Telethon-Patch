@@ -32,7 +32,7 @@ button = Button.mention("Open Profile", user)
 await client.send_message("username", "Hey!, Message with mention Button", buttons=button)
 ```
 
-### Chat Join Requests
+### Chat Join Requests ([In Detail](#eventsjoinrequest))
 ```python
 from telethon import events
 
@@ -46,9 +46,9 @@ async def example(event):
     print(await event.get_user())
 ```
 
-### Group Call Event (Detailed)
+### Group Call Event ([In Detail](#eventsgroupcall))
 ```python
-@client.on(event.GroupCall())
+@client.on(events.GroupCall())
 async def groupcall(group_call):
     if group_call.started:
         print("Group Call Started!")
@@ -77,16 +77,19 @@ async def groupcall(group_call):
 -  `ended` - Group call ended.
 -  `scheduled` - Whether a Group call has been scheduled.
 
-### Methods
+#### Methods
 - `.start(title, rtmp_stream, schedule)` - Start a group call
 - `.discard()` - End group call.
+- `.toggle_record(start, video, video_portrait, title)` - Toggle group call record.
 
 ## `events.JoinRequest`
 - Occurs when new chat join request is sent.
 - `.invite` - ExportedChatInvite related to join request
 - `.about` - User's about.
 
-### Methods
+#### Methods
 - `.approve()` - Approve chat join request of user.
 - `.reject()` - Reject chat join request.
 - `.get_user()` - Get user sending request.
+
+### Example of full functioning bot can be find in [examples](/examples)
