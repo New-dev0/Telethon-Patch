@@ -117,11 +117,11 @@ class GroupCall(EventBuilder):
 
         async def start(self, *args, **kwargs):
             """Start Group call."""
-            return await self.client.start_group_call(self.chat_id, *args, **kwargs)
+            return await self.client.create_group_call(self.chat_id, *args, **kwargs)
 
         async def discard(self):
             """End Group call."""
-            return await self.client.DiscardGroupCall(self.input_call)
+            return await self.client.discard_group_call(self.input_call)
 
         async def toggle_record(
             self, start=None, video=None, video_portrait=None, title=None
