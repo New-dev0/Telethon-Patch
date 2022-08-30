@@ -135,8 +135,34 @@ async def get_group_call(
     return await self(functions.phone.GetGroupCallRequest(call, limit=limit))
 
 
+async def send_reaction(
+    self: "TelegramClient",
+    peer: "TypeInputPeer",
+    msg_id: int,
+    big: Optional[bool] = None,
+    reaction: Optional[str] = None,
+):
+    """
+    Send reaction to a message.
+
+    Args:
+       peer:
+       msg_id:
+       big:
+       reaction:
+    """
+    return await self(
+        functions.messages.SendReactionRequest(
+            peer=peer,
+            msg_id=msg_id,
+            big=big,
+            reaction=reaction,
+         ),
+    )
+
 TelegramClient.create_group_call = create_group_call
 TelegramClient.join_group_call = join_group_call
 TelegramClient.leave_group_call = leave_group_call
 TelegramClient.discard_group_call = discard_group_call
 TelegramClient.get_group_call = get_group_call
+TelegramClient.send_reaction = send_reaction
