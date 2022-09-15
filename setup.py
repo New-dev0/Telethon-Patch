@@ -17,7 +17,7 @@ setuptools.setup(
     url="https://github.com/New-dev0/Telethon-Patch",
     packages=setuptools.find_packages(),
     install_requires=[
-        "https://github.com/Telethon-Fork/Telethon/archive/refs/heads/main.zip"
+        "Telethon@https://github.com/Telethon-Fork/Telethon/archive/refs/heads/main.zip"
     ],
     keywords=["telethon", "telethon-patch", "telegram", "mtproto"],
     ext_package=["scripts", "data", "examples"],
