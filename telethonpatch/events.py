@@ -48,9 +48,7 @@ class JoinRequest(EventBuilder):
                     await self.get_input_chat(), user_id=self.user_id, approved=True
                 )
             )
-            if len(res.updates) == 1:
-                return res.updates[0]
-            return res
+            return res.updates[0] if len(res.updates) == 1 else res
 
         async def reject(self):
             """Disapprove join request."""
@@ -59,9 +57,7 @@ class JoinRequest(EventBuilder):
                     await self.get_input_chat(), user_id=self.user_id, approved=False
                 )
             )
-            if len(res.updates) == 1:
-                return res.updates[0]
-            return res
+            return res.updates[0] if len(res.updates) == 1 else res
 
         async def get_user(self):
             return await self.client.get_entity(self.user_id)
