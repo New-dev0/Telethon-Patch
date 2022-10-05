@@ -21,7 +21,7 @@ def web(text, url):
 
 
 setattr(Button, "mention", mention)
-setatte(Button, "web", web)
+setattr(Button, "web", web)
 # Message
 
 
