@@ -4,7 +4,7 @@
 
 from telethon.tl import functions
 from telethon.tl.custom import Button, Message
-from telethon.tl.types import KeyboardButtonUserProfile, KeyboardButtonSimpleWebView
+from telethon.tl.types import InputKeyboardButtonUserProfile, KeyboardButtonSimpleWebView
 
 # Button
 
@@ -13,7 +13,7 @@ def mention(text, user):
     """Send Button with UserProfile mention.
 
     call 'get_input_entity' to fill in user parameter."""
-    return KeyboardButtonUserProfile(text, user)
+    return InputKeyboardButtonUserProfile(text, user)
 
 def web(text, url):
     """Send Button with WebView."""
