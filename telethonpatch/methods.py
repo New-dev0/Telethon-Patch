@@ -35,8 +35,8 @@ TelegramClient.__getattr__ = _getattr
 
 
 async def create_group_call(
-    self: "TelegramClient",
-    peer: "TypeInputPeer",
+    self: TelegramClient,
+    peer: types.TypeInputPeer,
     rtmp_stream: Optional[bool] = None,
     random_id: int = None,
     title: Optional[str] = None,
@@ -55,16 +55,20 @@ async def create_group_call(
     """
     return await self(
         functions.phone.CreateGroupCallRequest(
-            peer, rtmp_stream, title=title, schedule_date=schedule
+            peer=peer,
+            rtmp_stream=rtmp_stream,
+            title=title,
+            random_id=random_id,
+            schedule_date=schedule_date,
         )
     )
 
 
 async def join_group_call(
-    self: "TelegramClient",
-    call: "TypeInputGroupCall",
-    join_as: "TypeInputPeer",
-    params: "TypeDataJSON",
+    self: TelegramClient,
+    call: types.TypeInputGroupCall,
+    join_as: types.TypeInputPeer,
+    params: types.TypeDataJSON,
     muted: Optional[bool] = None,
     video_stopped: Optional[bool] = None,
     invite_hash: Optional[str] = None,
@@ -82,7 +86,7 @@ async def join_group_call(
     """
     return await self(
         functions.phone.JoinGroupCallRequest(
-            call,
+            call=call,
             join_as=join_as,
             params=params,
             muted=muted,
@@ -93,8 +97,8 @@ async def join_group_call(
 
 
 async def leave_group_call(
-    self: "TelegramClient",
-    call: "TypeInputGroupCall",
+    self: TelegramClient,
+    call: types.TypeInputGroupCall,
     source: int,
 ):
     """
@@ -104,12 +108,12 @@ async def leave_group_call(
        call:
        source:
     """
-    return await self(functions.phone.LeaveGroupCallRequest(call, source=source))
+    return await self(functions.phone.LeaveGroupCallRequest(call=call, source=source))
 
 
 async def discard_group_call(
-    self: "TelegramClient",
-    call: "TypeInputGroupCall",
+    self: TelegramClient,
+    call: types.TypeInputGroupCall,
 ):
     """
     Discard a Group Call.
@@ -118,12 +122,12 @@ async def discard_group_call(
     Args:
        call:
     """
-    return await self(functions.phone.DiscardGroupCallRequest(call))
+    return await self(functions.phone.DiscardGroupCallRequest(call=call))
 
 
 async def get_group_call(
-    self: "TelegramClient",
-    call: "TypeInputGroupCall",
+    self: TelegramClient,
+    call: types.TypeInputGroupCall,
     limit: int,
 ):
     """
@@ -132,12 +136,12 @@ async def get_group_call(
     Args:
        call:
     """
-    return await self(functions.phone.GetGroupCallRequest(call, limit=limit))
+    return await self(functions.phone.GetGroupCallRequest(call=call, limit=limit))
 
 
 async def send_reaction(
-    self: "TelegramClient",
-    peer: "TypeInputPeer",
+    self: TelegramClient,
+    peer: types.TypeInputPeer,
     msg_id: int,
     big: Optional[bool] = None,
     reaction: Optional[str] = None,
@@ -157,8 +161,75 @@ async def send_reaction(
             msg_id=msg_id,
             big=big,
             reaction=reaction,
-         ),
+        ),
     )
+
+
+async def create_topic(
+    self: "TelegramClient",
+    channel: types.InputChannel,
+    title: str,
+    icon_color: int = None,
+    icon_emoji_id: int = None,
+    random_id: int = None,
+    send_as: types.TypeInputPeer = None,
+):
+    return await self(
+        functions.channels.CreateForumTopicRequest(
+            channel=channel,
+            title=title,
+            icon_color=icon_color,
+            icon_emoji_id=icon_emoji_id,
+            random_id=random_id,
+            send_as=send_as,
+        )
+    )
+
+
+async def edit_topic(
+    self: TelegramClient,
+    channel: types.InputChannel,
+    topic_id: int,
+    title: str = None,
+    icon_emoji_id: int = None,
+    closed: bool = None,
+):
+    return await self(
+        functions.channels.EditForumTopicRequest(
+            channel=channel,
+            topic_id=topic_id,
+            title=title,
+            icon_emoji_id=icon_emoji_id,
+            closed=closed,
+        )
+    )
+
+
+async def get_topics(
+    self: TelegramClient,
+    channel: types.InputChannel,
+    offset_date: Optional[datetime.datetime],
+    offset_id: int,
+    offset_topic: int,
+    limit: int,
+    q: Optional[str] = None,
+    topics: int = None,
+):
+    if topics != None:
+        return await self(
+            functions.channels.GetForumTopicsByIDRequest(channel=channel, topics=topics)
+        )
+    return await self(
+        functions.channels.GetForumTopicsRequest(
+            channel=channel,
+            offset_date=offset_date,
+            offset_id=offset_id,
+            offset_topic=offset_topic,
+            limit=limit,
+            q=q,
+        )
+    )
+
 
 TelegramClient.create_group_call = create_group_call
 TelegramClient.join_group_call = join_group_call
@@ -166,3 +237,6 @@ TelegramClient.leave_group_call = leave_group_call
 TelegramClient.discard_group_call = discard_group_call
 TelegramClient.get_group_call = get_group_call
 TelegramClient.send_reaction = send_reaction
+TelegramClient.create_topic = create_group_call
+TelegramClient.edit_topic = edit_topic
+TelegramClient.get_topics = get_topics
