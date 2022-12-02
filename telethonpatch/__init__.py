@@ -3,10 +3,10 @@
 # Copyright  New-dev0
 
 
-from telethon.tl.alltlobjects import LAYER
+#from telethon.tl.alltlobjects import LAYER
 
 __author__ = "New-Dev0"
-__version__ = f"{LAYER}.2"
+__version__ = "0.2"
 
 
 def apply():
