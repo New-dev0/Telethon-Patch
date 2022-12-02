@@ -1,5 +1,10 @@
 import setuptools
-from telethonpatch import __version__, __author__
+
+with open("telethonpatch/__init__.py", "rt", encoding="utf8") as version:
+    version = re.search(r'__version__ = "(.*?)"', version.read()).group(1)
+
+with open("telethonpatch/__init__.py", "rt", encoding="utf8") as author:
+    author = re.search(r'__author__ = "(.*?)"', author.read()).group(1)
 
 
 with open("README.md", "r", encoding="utf-8") as readme:
@@ -8,11 +13,11 @@ with open("README.md", "r", encoding="utf-8") as readme:
 
 setuptools.setup(
     name="telethon-patch",
-    version=__version__,
+    version=version,
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="GNUV3",
-    author=__author__,
+    author=author,
     author_email="New-dev0@outlook.com",
     url="https://github.com/New-dev0/Telethon-Patch",
     packages=setuptools.find_packages(),
