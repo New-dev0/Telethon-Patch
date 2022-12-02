@@ -1,4 +1,4 @@
-import setuptools
+import setuptools, re
 
 with open("telethonpatch/__init__.py", "rt", encoding="utf8") as version:
     version = re.search(r'__version__ = "(.*?)"', version.read()).group(1)
