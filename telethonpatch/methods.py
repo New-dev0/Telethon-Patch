@@ -166,7 +166,7 @@ async def send_reaction(
 
 
 async def create_topic(
-    self: "TelegramClient",
+    self: TelegramClient,
     channel: types.InputChannel,
     title: str,
     icon_color: int = None,
@@ -208,10 +208,10 @@ async def edit_topic(
 async def get_topics(
     self: TelegramClient,
     channel: types.InputChannel,
-    offset_date: Optional[datetime.datetime],
-    offset_id: int,
-    offset_topic: int,
-    limit: int,
+    offset_date: Optional[datetime.datetime] = None,
+    offset_id: int = None,
+    offset_topic: int = None,
+    limit: int = None,
     q: Optional[str] = None,
     topics: int = None,
 ):
@@ -230,6 +230,19 @@ async def get_topics(
         )
     )
 
+async def join_chat(
+    self: TelegramClient,
+    entity: types.InputChannel = None,
+    hash: str = None
+):
+    if entity:
+        return await self(functions.channels.JoinChannelRequest(entity))
+    elif hash:
+        return await self(functions.messages.ImportChatInviteRequest(hash))
+    else:
+        raise ValueError("Either entity or hash is required.")
+
+
 
 TelegramClient.create_group_call = create_group_call
 TelegramClient.join_group_call = join_group_call
@@ -240,3 +253,4 @@ TelegramClient.send_reaction = send_reaction
 TelegramClient.create_topic = create_group_call
 TelegramClient.edit_topic = edit_topic
 TelegramClient.get_topics = get_topics
+TelegramClient.join_chat = join_chat
