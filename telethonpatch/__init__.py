@@ -10,7 +10,7 @@ import os
 __author__ = "New-Dev0"
 __version__ = "0.2.1"
 
-LATEST_LAYER = 150
+LATEST_LAYER = 151
 LATEST_TELETHON = "https://github.com/Telethon-Fork/Telethon/archive/refs/heads/main.zip"
 
 if LAYER < LATEST_LAYER:
