@@ -1,10 +1,10 @@
 import setuptools, re
 
 with open("telethonpatch/__init__.py", "rt", encoding="utf8") as version:
-    version = re.search(r'__version__ = "(.*?)"', version.read()).group(1)
+    version = re.search(r'__version__ = "(.*?)"', version.read())[1]
 
 with open("telethonpatch/__init__.py", "rt", encoding="utf8") as author:
-    author = re.search(r'__author__ = "(.*?)"', author.read()).group(1)
+    author = re.search(r'__author__ = "(.*?)"', author.read())[1]
 
 
 with open("README.md", "r", encoding="utf-8") as readme:

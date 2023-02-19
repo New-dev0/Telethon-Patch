@@ -10,10 +10,11 @@ from telethon import TelegramClient
 from telethon.tl import functions, types
 from telethon.tl.alltlobjects import tlobjects
 
-fns = {}
-for obj in tlobjects.values():
-    if "functions." in str(obj):
-        fns.update({obj.__name__[:-7]: obj})
+fns = {
+    obj.__name__[:-7]: obj
+    for obj in tlobjects.values()
+    if "functions." in str(obj)
+}
 
 
 def _getattr(self, item):
@@ -215,20 +216,21 @@ async def get_topics(
     q: Optional[str] = None,
     topics: int = None,
 ):
-    if topics != None:
+    if topics is None:
+        return await self(
+            functions.channels.GetForumTopicsRequest(
+                channel=channel,
+                offset_date=offset_date,
+                offset_id=offset_id,
+                offset_topic=offset_topic,
+                limit=limit,
+                q=q,
+            )
+        )
+    else:
         return await self(
             functions.channels.GetForumTopicsByIDRequest(channel=channel, topics=topics)
         )
-    return await self(
-        functions.channels.GetForumTopicsRequest(
-            channel=channel,
-            offset_date=offset_date,
-            offset_id=offset_id,
-            offset_topic=offset_topic,
-            limit=limit,
-            q=q,
-        )
-    )
 
 async def join_chat(
     self: TelegramClient,
