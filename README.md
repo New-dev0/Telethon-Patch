@@ -1,17 +1,15 @@
 # Telethon-Patch
-- A Wrap over Telethon (Telegram MtProto Library), providing Layer 139 and additional features.
+- A Wrap over Telethon (Telegram MtProto Library) with additional features.
 
 ## Installation
 ```bash
 pip install telethon-patch
 ```
-* (Make Sure, Telethon is not already installed on your system, `telethon-patch` will do that for you!)
 
 ### Usage
 - To make telethon-patch to do it's work, add this lines before creating TelegramClient
 ```python
-from telethonpatch import apply
-apply()
+import telethonpatch
 ```
 
 ## Features
@@ -64,10 +62,25 @@ async def groupcall(group_call):
 
 
 ### Friendly Methods like
- > client.start_group_call
-
- > client.read (instead of send_read_acknowledge)
-
+> Group call
+- client.start_group_call
+- client.join_group_call
+-  client.leave_group_call
+- client.discard_group_call
+- client.get_group_call
+> Reaction
+- client.send_reaction
+ > (Topics)
+- client.create_topic
+- client.edit_topic
+- client.get_topics
+- client.join_chat
+> (misc)
+- client.toggle_hidden
+- client.read (instead of send_read_acknowledge)
+> (Photos)
+- client.set_profile_photo
+- client.set_contact_photo
 
 # Events
 

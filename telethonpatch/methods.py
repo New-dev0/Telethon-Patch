@@ -31,7 +31,7 @@ def _getattr(self, item):
     raise AttributeError(f"{self.__class__.__name__} has no attribute '{item}'")
 
 
-TelegramClient.__getattr__ = _getattr
+setattr(TelegramClient, "__getattr__", _getattr)
 
 
 async def create_group_call(
@@ -144,7 +144,7 @@ async def send_reaction(
     peer: types.TypeInputPeer,
     msg_id: int,
     big: Optional[bool] = None,
-    reaction: Optional[str] = None,
+    reaction=None,
 ):
     """
     Send reaction to a message.
@@ -155,6 +155,10 @@ async def send_reaction(
        big:
        reaction:
     """
+    if isinstance(reaction, str):
+        reaction = [types.ReactionEmoji(reaction)]
+    elif not reaction:
+        reaction = [types.ReactionEmpty()]
     return await self(
         functions.messages.SendReactionRequest(
             peer=peer,
@@ -190,9 +194,9 @@ async def edit_topic(
     self: TelegramClient,
     channel: types.InputChannel,
     topic_id: int,
-    title: str = None,
-    icon_emoji_id: int = None,
-    closed: bool = None,
+    title: str = "",
+    icon_emoji_id: int = 0,
+    closed: bool = False,
 ):
     return await self(
         functions.channels.EditForumTopicRequest(
@@ -209,48 +213,74 @@ async def get_topics(
     self: TelegramClient,
     channel: types.InputChannel,
     offset_date: Optional[datetime.datetime] = None,
-    offset_id: int = None,
-    offset_topic: int = None,
+    offset_id: int = 0,
+    offset_topic: int = 0,
     limit: int = None,
     q: Optional[str] = None,
     topics: int = None,
 ):
-    if topics != None:
+    if topics is None:
         return await self(
-            functions.channels.GetForumTopicsByIDRequest(channel=channel, topics=topics)
+            functions.channels.GetForumTopicsRequest(
+                channel=channel,
+                offset_date=offset_date,
+                offset_id=offset_id,
+                offset_topic=offset_topic,
+                limit=limit,
+                q=q,
+            )
         )
     return await self(
-        functions.channels.GetForumTopicsRequest(
-            channel=channel,
-            offset_date=offset_date,
-            offset_id=offset_id,
-            offset_topic=offset_topic,
-            limit=limit,
-            q=q,
-        )
+        functions.channels.GetForumTopicsByIDRequest(channel=channel, topics=topics)
     )
 
+
 async def join_chat(
-    self: TelegramClient,
-    entity: types.InputChannel = None,
-    hash: str = None
+    self: TelegramClient, entity: types.InputChannel = None, hash: str = ""
 ):
     if entity:
         return await self(functions.channels.JoinChannelRequest(entity))
     elif hash:
         return await self(functions.messages.ImportChatInviteRequest(hash))
-    else:
-        raise ValueError("Either entity or hash is required.")
+    raise ValueError("Either entity or hash is required.")
 
 
+async def toggle_hidden(
+    self: TelegramClient, channel: types.InputChannel, enabled: bool = False
+):
+    """Toggle hidden participants"""
+    return await self(
+        functions.channels.ToggleParticipantsHiddenRequest(channel, enabled)
+    )
 
-TelegramClient.create_group_call = create_group_call
-TelegramClient.join_group_call = join_group_call
-TelegramClient.leave_group_call = leave_group_call
-TelegramClient.discard_group_call = discard_group_call
-TelegramClient.get_group_call = get_group_call
-TelegramClient.send_reaction = send_reaction
-TelegramClient.create_topic = create_topic
-TelegramClient.edit_topic = edit_topic
-TelegramClient.get_topics = get_topics
-TelegramClient.join_chat = join_chat
+
+async def set_profile_photo(self: TelegramClient, file, **kwargs):
+    if isinstance(file, str):
+        file = await self.upload_file(file)
+    return await self(functions.photos.UploadProfilePhotoRequest(file=file, **kwargs))
+
+
+async def set_contact_photo(
+    self: TelegramClient, user: types.InputUser, file=None, **kwargs
+):
+    if isinstance(file, str):
+        file = await self.upload_file(file)
+    return await self(
+        functions.photos.UploadContactProfilePhotoRequest(user, file=file, **kwargs)
+    )
+
+
+setattr(TelegramClient, "create_group_call", create_group_call)
+setattr(TelegramClient, "join_group_call", join_group_call)
+setattr(TelegramClient, "leave_group_call", leave_group_call)
+setattr(TelegramClient, "discard_group_call", discard_group_call)
+setattr(TelegramClient, "get_group_call", get_group_call)
+setattr(TelegramClient, "send_reaction", send_reaction)
+setattr(TelegramClient, "create_topic", create_topic)
+setattr(TelegramClient, "edit_topic", edit_topic)
+setattr(TelegramClient, "get_topics", get_topics)
+setattr(TelegramClient, "join_chat", join_chat)
+setattr(TelegramClient, "toggle_hidden", toggle_hidden)
+
+setattr(TelegramClient, "set_profile_photo", set_profile_photo)
+setattr(TelegramClient, "set_contact_photo", set_contact_photo)

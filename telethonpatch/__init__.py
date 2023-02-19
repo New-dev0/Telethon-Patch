@@ -4,42 +4,17 @@
 
 
 from telethon.tl.alltlobjects import LAYER
-import sys
-import os
 
 __author__ = "New-Dev0"
-__version__ = "0.2.1"
-
-LATEST_LAYER = 151
-LATEST_TELETHON = "https://github.com/Telethon-Fork/Telethon/archive/refs/heads/main.zip"
-
-if LAYER < LATEST_LAYER:
-    sys.stderr.write(
-        """
-=========================================
-Your telegram API LAYER ({}) is outdated.
-Consider updating it to ({}) using
-'{} -m pip install --no-cache-dir {}'
-=========================================
-""".format(LAYER, LATEST_LAYER, sys.executable, LATEST_TELETHON),
-    )
+__version__ = "0.3"
 
 
-def update_telethon():
-    os.execl(
-        sys.executable,
-        sys.executable,
-        "-m",
-        "pip",
-        "install",
-        "--no-cache-dir",
-        LATEST_TELETHON,
-    )
+from . import methods, custom, events
+from telethon import TelegramClient
+
+# Rename long name methods..
+TelegramClient.read = TelegramClient.send_read_acknowledge
 
 
-def apply():
-    from . import methods, custom, events
-    from telethon import TelegramClient
-
-    # Rename long name methods..
-    TelegramClient.read = TelegramClient.send_read_acknowledge
+def print_conf():
+    print(f"Using Telethon-Patch (v{__version__}) [{LAYER}]")
