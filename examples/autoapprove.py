@@ -7,9 +7,11 @@ Fill API_ID, API_HASH and BOT_TOKEN in your env variables.
 import os
 
 import telethonpatch
+
 telethonpatch.apply()
 
 import logging
+
 logging.basicConfig(level=logging.INFO)
 
 from telethon import TelegramClient

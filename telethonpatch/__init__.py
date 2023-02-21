@@ -6,10 +6,10 @@
 from telethon.tl.alltlobjects import LAYER
 
 __author__ = "New-Dev0"
-__version__ = "0.3"
+__version__ = "0.03b0"
 
 
-from . import methods, custom, events
+from . import methods, custom, events, pyrogram
 from telethon import TelegramClient
 
 # Rename long name methods..

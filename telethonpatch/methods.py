@@ -10,10 +10,10 @@ from telethon import TelegramClient
 from telethon.tl import functions, types
 from telethon.tl.alltlobjects import tlobjects
 
-fns = {}
-for obj in tlobjects.values():
-    if "functions." in str(obj):
-        fns.update({obj.__name__[:-7]: obj})
+fns = {
+    obj.__name__[:-7]: obj
+    for obj in filter(lambda obj: "functions" in str(obj), tlobjects.values())
+}
 
 
 def _getattr(self, item):
@@ -143,8 +143,9 @@ async def send_reaction(
     self: TelegramClient,
     peer: types.TypeInputPeer,
     msg_id: int,
-    big: Optional[bool] = None,
     reaction=None,
+    big: Optional[bool] = None,
+    **kwargs,
 ):
     """
     Send reaction to a message.
@@ -161,10 +162,7 @@ async def send_reaction(
         reaction = [types.ReactionEmpty()]
     return await self(
         functions.messages.SendReactionRequest(
-            peer=peer,
-            msg_id=msg_id,
-            big=big,
-            reaction=reaction,
+            peer=peer, msg_id=msg_id, big=big, reaction=reaction, **kwargs
         ),
     )
 

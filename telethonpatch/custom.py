@@ -6,7 +6,7 @@ from telethon.tl import functions, types
 from telethon.tl.custom import Button, Message
 from telethon.tl.types import (
     InputKeyboardButtonUserProfile,
-    KeyboardButtonSimpleWebView
+    KeyboardButtonSimpleWebView,
 )
 
 # Button
@@ -51,7 +51,7 @@ async def comment(self: "Message", *args, **kwargs):
 async def react(self: "Message", *args, **kwargs):
     """Bound method to react to messages"""
     if self._client:
-        return await self._client.send_reaction(self.chat_id, *args, **kwargs)
+        return await self._client.send_reaction(self.chat_id, self.id, *args, **kwargs)
 
 
 setattr(Message, "comment", comment)
