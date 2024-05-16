@@ -7,9 +7,13 @@ pip install telethon-patch
 ```
 
 ### Usage
-- To make telethon-patch to do it's work, add this lines before creating TelegramClient
+- To make telethon-patch to do it's work, import TelegramClient
 ```python
-import telethonpatch
+from telethonpatch import TelegramClient
+
+client = TelegramClient(
+    ...
+)
 ```
 
 ## Features
