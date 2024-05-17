@@ -4,7 +4,7 @@ from telethon.tl.custom import InlineBuilder
 
 
 async def article(
-    self,
+    self: "InlineBuilder",
     title,
     description=None,
     *,
@@ -20,7 +20,8 @@ async def article(
     contact=None,
     game=False,
     buttons=None,
-    type="article"
+    type="article",
+    include_media: bool = False
 ):
     """
     Creates new inline result of article type.
@@ -83,6 +84,7 @@ async def article(
             contact=contact,
             game=game,
             buttons=buttons,
+            media=include_media
         ),
         title=title,
         description=description,
