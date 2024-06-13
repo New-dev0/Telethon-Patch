@@ -23,9 +23,20 @@ def web(text, url):
     """Send Button with WebView."""
     return KeyboardButtonSimpleWebView(text, url)
 
+b_is_inline = Button._is_inline
+
+def is_inline(button):
+    """Check if Button is Inline."""
+    if isinstance(button, (
+        types.InputKeyboardButtonUserProfile,
+        types.KeyboardButtonSimpleWebView
+    )):
+        return True
+    return b_is_inline(button)
 
 setattr(Button, "mention", mention)
 setattr(Button, "web", web)
+setattr(Button, "_is_inline", is_inline)
 
 # Message
 
